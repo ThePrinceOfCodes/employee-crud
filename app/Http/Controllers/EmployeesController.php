@@ -64,4 +64,21 @@ class EmployeesController extends Controller
             Log::error($e);
         }
     }
+
+    //create new Employee
+    public function createNewEmployee(Request $request){
+        try{
+            $employeeName = $request->get('employeeName');
+            $employeeSalary = $request->get('employeeSalary');
+
+            Employee::create([
+                'employee_name' => $employeeName,
+                'salary' => $employeeSalary
+            ]);
+         return response()->json(200);
+
+        }catch(Exception $e){
+            Log::error($e);
+        }
+    }
 }

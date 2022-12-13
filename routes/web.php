@@ -30,4 +30,4 @@ Route::post('/update/employee/data', [App\Http\Controllers\EmployeesController::
 
 Route::delete('/delete/employee/data/{employee}', [App\Http\Controllers\EmployeesController::class, 'deleteEmployeeDetails']);
 
-
+Route::post('/create/employee/data',[App\Http\Controllers\EmployeesController::class, 'createNewEmployee']);
