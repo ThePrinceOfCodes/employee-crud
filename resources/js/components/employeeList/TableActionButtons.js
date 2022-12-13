@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {Component} from 'react';
 import ViewModal from '../modals/ViewModal';
 import UpdateModal from '../modals/UpdateModal';
+import DeleteModal from '../modals/DeleteModal';
 
 class TableActionButtons extends Component{
 
@@ -23,7 +24,7 @@ class TableActionButtons extends Component{
                 currentEmployeeSalary : response.data.salary
             })});
     }
-  
+
     render(){
         return ( 
             <div className="btn-group" role="group" aria-label="Basic outlined example">
@@ -48,9 +49,17 @@ class TableActionButtons extends Component{
 
                 <UpdateModal modalId = { this.props.rowId } employeeData = { this.state}/>
 
+                <button type="button" 
+                    className="btn btn-outline-danger"
+                    data-bs-toggle="modal" 
+                    data-bs-target={ '#deleteModal'+this.props.rowId}
+                    onClick = { () => { this.deleteEmployeeDetails(this.props.rowId) }}
+                    >
+                    Delete
+                </button>
 
+                <DeleteModal modalId = { this.props.rowId } employeeData = { this.state}/>
 
-                <button type="button" className="btn btn-outline-danger">Delete</button>
             </div>    
         );
     }
