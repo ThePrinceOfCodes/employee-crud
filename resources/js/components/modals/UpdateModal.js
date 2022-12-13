@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, {Component} from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class UpdateModal extends Component{
@@ -25,16 +27,53 @@ class UpdateModal extends Component{
         }
     }
 
+    //update data from props on modal
+
+    static getDerivedStateFromProps(props, current_state) {
+
+        let employeeUpdate = {
+            employeeName : null,
+            employeeSalary : null,
+        }
+
+        //updating data from input
+        if(current_state.employeeName && (current_state.employeename !== props.employeeData.currentEmployeeName)){
+            return null;
+        }
+
+        if(current_state.employeeSalary && (current_state.employeeSalary !== props.employeeData.currentEmployeeSalary)){
+            return null;
+        }
+
+
+
+
+        //updating data from props
+
+        if (current_state.employeeName !== props.employeeData.currentEmployeeName || current_state.employeeName === props.employeeData.currentEmployeeName ){
+            employeeUpdate.employeeName = props.employeeData.currentEmployeeName;
+        }
+
+        if (current_state.employeeSalary !== props.employeeData.currentEmployeeSalary || current_state.employeeSalary === props.employeeData.currentEmployeeSalary ){
+            employeeUpdate.employeeSalary = props.employeeData.currentEmployeeSalary;
+        }
+
+        return employeeUpdate;
+    }
+
     //updating employee data
     updateEmployeeData = () => {
         console.log(this.state.employeeName);
         axios.post('/update/employee/data', {
-            employyeId : this.props.modalId,
+            employeeId : this.props.modalId,
             employeeName: this.state.employeeName,
             employeeSalary: this.state.employeeSalary,
 
         }).then(() => {
-             location.reload();
+            toast.success("employee Updated Successfully");
+            setTimeout(() => {
+                location.reload();
+            }, 3000)
         })
     }
   
@@ -49,24 +88,21 @@ class UpdateModal extends Component{
                   </div>
                   <div className="modal-body">
                         <form className='form'>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <div className="mb-3">
+                                {/* <label for="employeeName" class="form-label">Name</label> */}
                                 <input type="text" 
-                                    class="form-control" 
+                                    className="form-control" 
                                     id="employeeName" 
-                                    aria-describedby="emailHelp" 
-                                    value={this.props.employeeData.currentEmployeeName ?? ''}
-                                    // placeholder={this.props.employeeData.currentEmployeeName ?? ''}
-                                    onChange = {this.inputEmployeeName}
+                                    value={this.state.employeeName ?? ""}
+                                    onChange = { this.inputEmployeeName }
                                 />
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Salary</label>
+                            <div className="mb-3">
+                                {/* <label for="employeeSalary" class="form-label">Salary</label> */}
                                 <input type="text" 
-                                    class="form-control" 
+                                    className="form-control" 
                                     id="employeeSalary" 
-                                    value={this.props.employeeData.currentEmployeeSalary ?? ''}
-                                    // placeholder={this.props.employeeData.currentEmployeeSalary ?? ''}
+                                    value={this.state.employeeSalary ?? ''}
                                     onChange = {this.inputEmployeeSalary}
                                     />
                             </div>
@@ -76,7 +112,7 @@ class UpdateModal extends Component{
                   <div className="modal-footer">
                     <button type="submit" 
                         className="btn btn-info"
-                        onClick = { this.updateEmployeeData}
+                        onClick = { this.updateEmployeeData }
                     >
                         Update
                     </button>

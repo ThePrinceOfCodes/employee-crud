@@ -39,9 +39,8 @@ class EmployeesController extends Controller
     public function updateEmployeeDetails(Request $request)
     {
         try{
-
-            $employeeData= Employee::findOrFail($request->get('employeeId'));
             
+            $employeeData= Employee::findOrFail($request->get('employeeId'));
             $employeeData->employee_name = $request->get('employeeName');
             $employeeData->salary = $request->get('employeeSalary');
             $employeeData->update();

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, {Component} from 'react';
 import TableRow from './TableRow';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class Table extends Component{
@@ -30,6 +32,7 @@ class Table extends Component{
     render(){
         return (
             <div className="container">
+                <ToastContainer/>
                 <div className="row justify-content-center">
                     <table className="table table-striped">
                         <thead>
